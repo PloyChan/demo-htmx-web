@@ -29,7 +29,7 @@ public class MajorController {
     String save(Major major, Model model) {
         Major majorSave = this.majorRepo.save(major);
         model.addAttribute("majors",this.majorRepo.findById(majorSave.getId()).get());
-        return "major :: major-details";
+        return "major :: detail";
     }
     @ResponseBody
     @DeleteMapping(value = "{id}", produces = MediaType.TEXT_HTML_VALUE)

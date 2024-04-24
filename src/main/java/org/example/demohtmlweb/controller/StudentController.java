@@ -1,19 +1,15 @@
 package org.example.demohtmlweb.controller;
 
-import org.example.demohtmlweb.domain.Major;
 import org.example.demohtmlweb.domain.Student;
 import org.example.demohtmlweb.enums.Gender;
 import org.example.demohtmlweb.repo.MajorRepo;
 import org.example.demohtmlweb.repo.StudentRepo;
 import org.example.demohtmlweb.spec.StudentSpec;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "/student")
