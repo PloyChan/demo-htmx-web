@@ -39,47 +39,25 @@ public class StudentController {
         return "student-add";
     }
 
-    @GetMapping(value = "add/{id}", produces = MediaType.TEXT_HTML_VALUE)
-    String editUrl(@PathVariable Integer id, Model model) {
+    @PostMapping("/add")
+    String save(Student student, Model model) {
+        Student save = this.studentRepo.save(student);
+        model.addAttribute("students",this.studentRepo.findById(save.getId()).get());
+        return "student :: detail";
+    }
+
+    @GetMapping(value = "edit/{id}")
+    String editStudent(@PathVariable Integer id, Model model) {
         model.addAttribute("majors", this.majorRepo.findAll());
         model.addAttribute("student" ,this.studentRepo.findById(id).get());
         model.addAttribute("gender",Gender.values());
         return "student-add";
     }
 
-    @PostMapping(value = "/save-student")
-    String add(@RequestParam("name") String name, @RequestParam("gpa") Float gpa, @RequestParam("gender")Gender gender,
-               @RequestParam("major")Integer majorId, Model model) {
-        Optional<Major> major = this.majorRepo.findById(majorId);
-        Student student = new Student();
-        student.setName(name);
-        student.setGender(gender);
-        student.setGpa(gpa);
-        major.ifPresent(student::setMajor);
-        this.studentRepo.save(student);
-        model.addAttribute("students",this.studentRepo.findAll());
-        return  "student";
-    }
-    @PostMapping(value = "/save-student/{id}")
-    String edit(@PathVariable Integer id, @RequestParam("name") String name, @RequestParam("gpa") Float gpa, @RequestParam("gender")Gender gender,
-               @RequestParam("major")Integer majorId, Model model) {
-        Student student  = studentRepo.findById(id).get();
-        Optional<Major> major = this.majorRepo.findById(majorId);
-        student.setName(name);
-        student.setGender(gender);
-        student.setGpa(gpa);
-        major.ifPresent(student::setMajor);
-        this.studentRepo.save(student);
-        model.addAttribute("students",this.studentRepo.findAll());
-        return  "student";
-    }
-
-    @PostMapping(value = "search")
-    String search(Model model, @RequestParam("name") String name, @RequestParam("major") Integer majorId) {
-        Specification<Student> specification = Specification.where(null);
-        specification = specification.and(StudentSpec.nameLike(name));
-        specification = specification.and(StudentSpec.majorEq(majorId));
-        model.addAttribute("students", this.studentRepo.findAll(specification));
+    @PostMapping("/edit/{id}")
+    String edit(Student student, Model model) {
+        Student save = this.studentRepo.save(student);
+        model.addAttribute("students",this.studentRepo.findById(save.getId()).get());
         return "student :: detail";
     }
 

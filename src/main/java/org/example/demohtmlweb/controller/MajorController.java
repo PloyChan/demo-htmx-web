@@ -26,12 +26,10 @@ public class MajorController {
         return "major-add";
     }
     @PostMapping()
-    String save(@RequestParam("name") String name, Model model) {
-        Major major = new Major();
-        major.setName(name);
-        this.majorRepo.save(major);
-        model.addAttribute("majors",this.majorRepo.findAll());
-        return "major";
+    String save(Major major, Model model) {
+        Major majorSave = this.majorRepo.save(major);
+        model.addAttribute("majors",this.majorRepo.findById(majorSave.getId()).get());
+        return "major :: major-details";
     }
     @ResponseBody
     @DeleteMapping(value = "{id}", produces = MediaType.TEXT_HTML_VALUE)
