@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add-Student</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="https://unpkg.com/htmx.org@1.9.3"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+<div th:if="${student}==null" th:fragment="student-add" id="student-add" class="card">
+    <div class="card-body">
+        <form name="student-add">
+            ชื่อ - นามสกุล: <input type="text" class="form-control" name="name">
+            เพศ:
+            <select class="form-control" name="gender">
+                <option th:text="โปรดระบุเพศ" th:value="undefind"></option>
+                <option th:each="g : ${gender}" th:text="${g.getValue()}" th:value="${g.name()}"></option>
+            </select>
+            สาขาวิชา:
+            <select class="form-control" name="major">
+                <option th:text="โปรดระบุสาขาวิชา" th:value="undefind"></option>
+                <option th:each="major : ${majors}" th:text="${major.name}" th:value="${major.id}"></option>
+            </select>
+            เกรดเฉลี่ย:<input type="text" class="form-control" name="gpa">
+            <button class="btn btn-outline-success mt-2"
+                    hx-post="/student/save-student"
+                    hx-target="#show-details">บันทึก
+            </button>
+            <a class="btn btn-outline-info mt-2"
+               href="/student">ย้อนกลับ</a>
+        </form>
+    </div>
+</div>
+
+<div th:if="${student}!=null" th:fragment="student-edit" id="student-edit" class="card">
+    <div class="card-body">
+        <form name="student-edit">
+            ชื่อ - นามสกุล: <input type="text" class="form-control" name="name" th:value="${student.name}">
+            เพศ:
+            <select class="form-control" name="gender" th:value="${student.gender}">
+                <option th:text="โปรดระบุเพศ" th:value="undefind"></option>
+                <option th:each="g : ${gender}" th:if="${student.gender.name()} == ${g.name()}" th:text="${g.getValue()}" th:selected="${student.gender}" th:value="${g.name()}"></option>
+                <option th:each="g : ${gender}" th:text="${g.getValue()}" th:value="${g.name()}"></option>
+            </select>
+            สาขาวิชา:
+            <select class="form-control" name="major" th:value="${student.major.name}">
+                <option th:text="โปรดระบุสาขาวิชา" th:value="undefind"></option>
+                <option  th:each="major : ${majors}" th:if="${student.major.id} == ${major.id}" th:text="${student.major.name}" th:selected="${student.major.name}" th:value="${major.id}"></option>
+                <option th:each="major : ${majors}" th:text="${major.name}" th:value="${major.id}"></option>
+            </select>
+            เกรดเฉลี่ย:<input type="text" class="form-control" name="gpa" th:value="${student.gpa}">
+            <button class="btn btn-outline-success mt-2"
+                    th:attr="hx-post=@{/student/save-student/{id}(id=${student.id})}"
+                    hx-target="#show-details"
+            >บันทึก
+            </button>
+            <a class="btn btn-outline-info mt-2"
+               href="/student">ย้อนกลับ</a>
+        </form>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body" id="show-details">
+
+    </div>
+</div>
+
+</body>
+</html>

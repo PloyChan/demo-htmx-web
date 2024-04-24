@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="https://unpkg.com/htmx.org@1.9.3"></script>
+    <title>Add Major</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+<div th:fragment="student-add" id="major-add" class="card">
+    <div class="card-body">
+        <form name="student-add">
+            ชื่อสาขาวิชา: <input type="text" class="form-control" name="name">
+            <button class="btn btn-outline-success mt-2"
+                    hx-post="/major"
+                    hx-target="#show-details">บันทึก
+            </button>
+            <a class="btn btn-outline-info mt-2"
+               href="/major">ย้อนกลับ</a>
+        </form>
+    </div>
+</div>
+
+<div class="card-body" id="show-details">
+
+</div>
+</body>
+</html>
